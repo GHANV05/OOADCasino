@@ -1,4 +1,4 @@
-# Homework 5 : Adding Observer and Adapter Patterns
+# Final Project : Casino
 -----
 
 **Team Members:**
