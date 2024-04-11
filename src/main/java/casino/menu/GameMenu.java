@@ -1,5 +1,6 @@
 package casino.menu;
 
+import casino.user.Player;
 import casino.games.Game;
 import casino.games.Blackjack;
 import casino.games.Poker;
@@ -11,11 +12,16 @@ import java.util.Scanner;
 public class GameMenu {
     private Scanner scanner;
     private Map<String, Game> games;
+    private Player player = null;
 
     public GameMenu() {
         this.scanner = new Scanner(System.in);
         this.games = new HashMap<>();
         initializeGames();
+    }
+
+    public void addPlayer(Player player){
+        this.player = player;
     }
 
     private void initializeGames() {
@@ -28,13 +34,13 @@ public class GameMenu {
 
     public void displayMenu() {
         System.out.println("+============================+");
-        System.out.println("Welcome to the Game Menu!");
+        System.out.println("Welcome \" " + this.player.getUserName() + " \" to the Game Menu!");
         System.out.println("+============================+");
         System.out.println("Select a game to play:");
         System.out.println("-------------------------");
         // Dynamically list out all games
         games.forEach((key, value) -> System.out.println("(" + key + ") " + value.getName()));
-        System.out.println("(Q) Quit...");
+        System.out.println("(Q) Quit to StartMenu...");
         System.out.println("-------------------------");
         System.out.print("Type Your Option: ");
 

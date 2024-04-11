@@ -2,6 +2,8 @@ package casino.menu;
 
 import casino.user.Player;
 import casino.menu.GameMenu;
+import casino.user.PlayerFactory;
+
 import java.util.Scanner;
 
 public class StartMenu {
@@ -10,6 +12,7 @@ public class StartMenu {
 
     public StartMenu(){
         this.scanner = new Scanner(System.in);
+        this.gameMenu = new GameMenu();
     }
 
     public void displayMenu(){
@@ -31,8 +34,10 @@ public class StartMenu {
 
             switch (choice){
                 case "A":
-                    createNewUser();
-                    //Call Game Menu
+                    //
+                    Player player = createNewUser();
+                    gameMenu.addPlayer(player);
+                    gameMenu.displayMenu(); // Call GameMenu after creating a new user//Call Game Menu
                     break;
                 case "B":
                     //Login logic will go here
@@ -40,8 +45,9 @@ public class StartMenu {
                     //Call Game Menu
                     break;
                 case "C":
-                    continueAsGuest();
-                    //Call Game Menu
+                    Player guest = continueAsGuest();
+                    gameMenu.addPlayer(guest);
+                    gameMenu.displayMenu(); // Call GameMenu after creating a new user//Call Game Menu
                     break;
                 case "Q":
                     System.out.println("Goodbye!");
@@ -58,7 +64,7 @@ public class StartMenu {
         }
     }
 
-    private void createNewUser() {
+    private Player createNewUser() {
         System.out.println("\n--- Create New User ---");
         System.out.print("Enter First Name: ");
         String firstName = scanner.nextLine();
@@ -69,14 +75,17 @@ public class StartMenu {
         System.out.print("Enter Phone Number: ");
         String phoneNumber = scanner.nextLine();
 
-        Player newUser = new Player(firstName, lastName, username, phoneNumber);
+        // Use the PlayerFactory to create a new Player object
+        Player newUser = PlayerFactory.createPlayer(firstName, lastName, username, phoneNumber);
         System.out.println("User created successfully! Welcome, " + newUser.getWholeName() + "!");
         // ***TO-DO*** Save the newUser object to database or user management system
+        return newUser;
     }
 
-    private void continueAsGuest() {
-        Player guestUser = new Player("Guest", "User", "guestuser", "000-000-0000");
+    private Player continueAsGuest() {
+        Player guestUser = PlayerFactory.createPlayer("Guest", "User", "guestuser", "000-000-0000");
         System.out.println("Continuing as Guest. Welcome, " + guestUser.getWholeName() + "!");
+        return guestUser;
         // This Guest User can be used for ease of testing
     }
 
@@ -94,7 +103,6 @@ public class StartMenu {
 //            System.out.println("Error clearing screen: " + e.getMessage());
 //        }
 //    }
-
 
     public static void main(String[] args) {
         StartMenu menu = new StartMenu();
