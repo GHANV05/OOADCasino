@@ -8,11 +8,11 @@ import java.util.Scanner;
 
 public class StartMenu {
     private Scanner scanner;
-    private GameMenu gameMenu;
+    private CasinoLobbyMenu lobbyMenu;
 
     public StartMenu(){
         this.scanner = new Scanner(System.in);
-        this.gameMenu = new GameMenu();
+        this.lobbyMenu = new CasinoLobbyMenu();
     }
 
     public void displayMenu(){
@@ -36,8 +36,8 @@ public class StartMenu {
                 case "A":
                     //
                     Player player = createNewUser();
-                    gameMenu.addPlayer(player);
-                    gameMenu.displayMenu(); // Call GameMenu after creating a new user//Call Game Menu
+                    lobbyMenu.addPlayer(player);
+                    lobbyMenu.displayMenu();
                     break;
                 case "B":
                     //Login logic will go here
@@ -46,8 +46,8 @@ public class StartMenu {
                     break;
                 case "C":
                     Player guest = continueAsGuest();
-                    gameMenu.addPlayer(guest);
-                    gameMenu.displayMenu(); // Call GameMenu after creating a new user//Call Game Menu
+                    lobbyMenu.addPlayer(guest);
+                    lobbyMenu.displayMenu();
                     break;
                 case "Q":
                     System.out.println("Goodbye!");

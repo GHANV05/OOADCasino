@@ -27,20 +27,20 @@ public class GameMenu {
     private void initializeGames() {
         // Initialize and add games to the list
         // For each game, you can instantiate it and add it to the games map with a unique key
-        games.put("A", new Blackjack());
-        games.put("B", new Poker());
-        games.put("C", new SlotMachine());
+        games.put("A", new Blackjack("Blackjack", 4));
+        games.put("B", new Poker("Poker" , 4));
+        games.put("C", new SlotMachine("Slots" , 1));
     }
 
     public void displayMenu() {
         System.out.println("+============================+");
-        System.out.println("Welcome \" " + this.player.getUserName() + " \" to the Game Menu!");
+        System.out.println("Welcome \"" + this.player.getUserName() + "\" to the Game Menu!");
         System.out.println("+============================+");
         System.out.println("Select a game to play:");
         System.out.println("-------------------------");
         // Dynamically list out all games
         games.forEach((key, value) -> System.out.println("(" + key + ") " + value.getName()));
-        System.out.println("(Q) Quit to StartMenu...");
+        System.out.println("(Q) Quit to Casino Lobby...");
         System.out.println("-------------------------");
         System.out.print("Type Your Option: ");
 

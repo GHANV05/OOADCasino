@@ -17,7 +17,7 @@ public class Player {
     private Map<String, Integer[]> gameStats; // Key: Game name, Value: [Wins, Losses]
 
     //Financial
-    private double accountBalance;
+    private double accountBalance = 1000.00; //everyone starts with 1000.00
 
     //Constructors
     public Player(String firstName, String lastName, String username, String phoneNumber) {
