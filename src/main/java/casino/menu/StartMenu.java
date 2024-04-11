@@ -1,10 +1,12 @@
 package casino.menu;
 
 import casino.user.Player;
+import casino.menu.GameMenu;
 import java.util.Scanner;
 
 public class StartMenu {
     private Scanner scanner;
+    private GameMenu gameMenu;
 
     public StartMenu(){
         this.scanner = new Scanner(System.in);
@@ -30,13 +32,16 @@ public class StartMenu {
             switch (choice){
                 case "A":
                     createNewUser();
+                    //Call Game Menu
                     break;
                 case "B":
                     //Login logic will go here
                     System.out.println("Login feature is not yet implemented");
+                    //Call Game Menu
                     break;
                 case "C":
                     continueAsGuest();
+                    //Call Game Menu
                     break;
                 case "Q":
                     System.out.println("Goodbye!");
