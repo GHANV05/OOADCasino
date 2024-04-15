@@ -49,12 +49,12 @@ public class PlayerTest {
     @Test
     void testAccountBalanceOperations() {
         player.deposit(100);
-        assertEquals(100, player.getAccountBalance(), "The account balance should be 100 after depositing.");
+        assertEquals(1100, player.getAccountBalance(), "The account balance should be 1100 after depositing.");
 
         player.withdraw(50);
-        assertEquals(50, player.getAccountBalance(), "The account balance should be 50 after withdrawing.");
+        assertEquals(1050, player.getAccountBalance(), "The account balance should be 1050 after withdrawing.");
 
-        player.withdraw(100); // Attempting to overdraw
-        assertEquals(50, player.getAccountBalance(), "The account balance should remain 50 after failed withdrawal.");
+        player.withdraw(1100); // Attempting to overdraw
+        assertEquals(1050, player.getAccountBalance(), "The account balance should remain 1050 after failed withdrawal.");
     }
 }

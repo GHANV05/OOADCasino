@@ -1,6 +1,9 @@
 package casino.user;
 
+import casino.games.Card;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Player {
@@ -10,6 +13,7 @@ public class Player {
     private String wholeName;
     private String username;
     private String phoneNumber;
+    private List<Card> hand;
 
     //Player stats
     private int totalWins;
@@ -107,5 +111,17 @@ public class Player {
             System.out.println("Insufficient Funds!");
             System.out.print("Current Balance: " + accountBalance);
         }
+    }
+
+    public List<Card> getHand() {
+        return hand;
+    }
+
+    public void addToHand(Card card) {
+        hand.add(card);
+    }
+
+    public void clearHand() {
+        hand.clear();
     }
 }
