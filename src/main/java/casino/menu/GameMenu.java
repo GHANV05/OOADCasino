@@ -2,7 +2,7 @@ package casino.menu;
 
 import casino.user.Player;
 import casino.games.Game;
-import casino.games.Blackjack;
+import casino.games.blackjack.Blackjack;
 import casino.games.Poker;
 import casino.games.SlotMachine;
 import java.util.HashMap;

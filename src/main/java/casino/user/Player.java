@@ -1,6 +1,6 @@
 package casino.user;
 
-import casino.games.Card;
+import casino.games.blackjack.Card;
 
 import java.util.HashMap;
 import java.util.List;
