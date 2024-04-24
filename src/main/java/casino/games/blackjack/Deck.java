@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Deck {
-    private List<Card> cards = new ArrayList<>();
+    List<Card> cards = new ArrayList<>();
 
     public Deck() {
 
@@ -42,6 +42,10 @@ public class Deck {
             return cards.remove(0);
         }
         return null;
+    }
+
+    public void addCard(Card newCard) {
+        cards.add(newCard);
     }
 
     public void addCard(List<Card> newCards) {
