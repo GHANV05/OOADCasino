@@ -113,7 +113,20 @@ public class Blackjack extends Game {
             playersHand.addCard(deck.drawCard());
             System.out.println("You have drawn a card: " +  playersHand.returnCards().get(1).getCardName());
 
-            boolean gameStatus = isGameOver();
+            if(playersHand.calculateHandValue() == 21){
+                System.out.println("-------------------------");
+                System.out.println("Congrats! You got a Blackjack!");
+                if(dealersHand.calculateHandValue() < 21){
+                    System.out.println("Your hand defeated the dealer's hand. You won!");
+                    System.out.println("Your wager has been tripled and returned to you.");
+                    moneyGained += wager*3;
+                } else {
+                    System.out.println("The dealer also had a Blackjack! It's a push!");
+                    System.out.println("Your wager has been returned to you.");
+                    moneyGained += wager*2;
+                }
+                gameIsOver = true;
+            }
 
         }
 
@@ -132,12 +145,6 @@ public class Blackjack extends Game {
             for(Card card : playersHand.returnCards()){
                 System.out.print(card.getCardName() + " ");
             }
-
-            if(playersHand.calculateHandValue() >= 21) {
-                dealersTurn();
-                isGameOver();
-            }
-
             System.out.println("\n-------------------------");
             System.out.println("Select an option:");
             System.out.println("-------------------------");
@@ -165,11 +172,17 @@ public class Blackjack extends Game {
             }
 
             if(!playerStillPlaying) {
+                System.out.println("-------------------------");
                 System.out.println("Game over! You lost");
                 gameIsOver = true;
             }
 
             dealersTurn();
+            if(dealersHand.calculateHandValue() > 21){
+                System.out.println("-------------------------");
+                System.out.println("Game over! You won!");
+                gameIsOver = true;
+            }
 
         }
 
@@ -177,11 +190,13 @@ public class Blackjack extends Game {
     }
 
     private boolean playerChoiceStand(){
+        System.out.println("-------------------------");
         System.out.println("You have chosen to stand.");
         return true;
     }
 
     private boolean playerChoiceHit(){
+        System.out.println("-------------------------");
         System.out.println("You have chosen to hit.");
         playersHand.addCard(deck.drawCard());
         System.out.println("You have drawn a card: " + playersHand.returnCards().get(playersHand.returnCards().size()-1).getCardName());
@@ -194,17 +209,30 @@ public class Blackjack extends Game {
     }
 
     private boolean playerChoiceSurrender(){
+        System.out.println("-------------------------");
         System.out.println("You have chosen to surrender.");
         System.out.println("Half your wager is returned to you.");
         moneyGained += wager/2;
         return false;
     }
 
-    private boolean dealersTurn(){
-        System.out.println("The dealer does something here.");
-        return true;
-    }
+    private boolean dealersTurn() {
+        System.out.println("-------------------------");
+        System.out.print("Dealer's hand:  ");
+        for (Card card : dealersHand.returnCards()) {
+            System.out.print(card.getCardName() + " ");
+        }
+        System.out.println("\n-------------------------");
 
+        if (dealersHand.calculateHandValue() < 17) {
+            dealersHand.addCard(deck.drawCard());
+            System.out.println("The dealer has drawn a card: " + dealersHand.returnCards().get(dealersHand.returnCards().size() - 1).getCardName());
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
 
     @Override
