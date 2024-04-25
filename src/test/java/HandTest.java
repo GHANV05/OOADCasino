@@ -22,7 +22,6 @@ public class HandTest {
 
         hand.addCard(new Card(10, Card.Suit.Hearts));
 
-        // Test the calculateHandValue method after adding more cards
         assertEquals(27, hand.calculateHandValue());
 
         Hand hand1 = new Hand();

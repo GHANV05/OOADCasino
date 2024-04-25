@@ -7,22 +7,164 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Blackjack extends Game {
-    public Blackjack(String blackjack, int i) {
 
+    private Scanner scanner;
+
+    private Deck deck;
+
+    private Hand playersHand;
+
+    private Hand dealersHand;
+
+    private double moneyGained = 0;
+
+    private double wager = 0;
+
+    int turnCount = 0;
+
+
+    public Blackjack(String name, int maxPlayers) {
+        super(name, maxPlayers);
     }
+
 
     @Override
     protected void initializeGame() {
+        System.out.println("+============================+");
+        System.out.println("Blackjack Game Initializing...");
+        System.out.println("+============================+");
+        dealersHand = new Hand();
+        playersHand = new Hand();
+        deck = new Deck(2, false);
+
+        int buyInChips = 0;
+        boolean validInput = false;
+        while (!validInput) {
+            System.out.println("How much money in chips would you like to buy? (minimum: $100)");
+            String input = scanner.nextLine();
+            try {
+                buyInChips = Integer.parseInt(input);
+                if (buyInChips >= 100) {
+                    validInput = true;
+                } else {
+                    System.out.println("Minimum buy-in is $100. Please enter a valid amount.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid integer value.");
+            }
+        }
+
+        moneyGained -= buyInChips;
+
+        System.out.println("+============================+");
+        System.out.println("Beginning the game...");
+        System.out.println("+============================+");
+
+        int firstWager = 0;
+        boolean validInput1 = false;
+        while (!validInput1) {
+            System.out.println("How much would you like to wager? (minimum: $5)");
+            String input1 = scanner.nextLine();
+            try {
+                firstWager = Integer.parseInt(input1);
+                if (firstWager >= 5) {
+                    validInput1 = true;
+                } else {
+                    System.out.println("Minimum wager is $5. Please enter a valid amount.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid integer value.");
+            }
+        }
+
+        wager = firstWager;
 
     }
 
+
     @Override
     protected boolean isGameOver() {
+        if(playersHand.calculateHandValue() == 21) {
+            return true;
+        }
+        else if(playersHand.calculateHandValue() > 21){
+            return true;
+        }
+        else if(playersHand.calculateHandValue() < 21 && dealersHand.calculateHandValue() < 17){
+            return false;
+        }
         return false;
     }
 
     @Override
     protected void playTurn() {
+
+        if(turnCount == 0){
+            System.out.println("Turn # " + turnCount);
+
+            dealersHand.addCard(deck.drawCard());
+            System.out.println("The dealer has drawn a card...");
+
+            playersHand.addCard(deck.drawCard());
+            System.out.println("You have drawn a card: " + playersHand.returnCards().get(0).getCardName());
+
+            dealersHand.addCard(deck.drawCard());
+            System.out.println("The dealer has drawn a card: " + dealersHand.returnCards().get(1).getCardName());
+
+            playersHand.addCard(deck.drawCard());
+            System.out.println("You have drawn a card: " +  playersHand.returnCards().get(1).getCardName());
+
+            boolean gameStatus = isGameOver();
+
+            turnCount++;
+        }
+
+        if(turnCount == 1){
+
+            System.out.println("Turn # " + turnCount);
+
+            System.out.println("-------------------------");
+            System.out.print("Your hand:  ");
+            for(Card card : playersHand.returnCards()){
+                System.out.print(card.getCardName());
+            }
+            System.out.println("-------------------------");
+            System.out.print("Dealer's hand: ");
+            for(Card card : dealersHand.returnCards()){
+                if(card == dealersHand.returnCards().get(0)){
+                    System.out.print("? of ?");
+                }
+                else {System.out.print(card.getCardName());}
+            }
+            System.out.println("-------------------------");
+            System.out.println("Select an option:");
+            System.out.println("-------------------------");
+            System.out.println("(A) Stand (do nothing)");
+            System.out.println("(B) Hit (take on another card)");
+            System.out.println("(C) Double Down (take on another card, double your wager)");
+            System.out.println("(D) Split (create two hands of cards of equal value");
+            System.out.println("-------------------------");
+            System.out.print("Type Your Option:");
+            String choice = scanner.nextLine().trim().toUpperCase();
+
+            switch (choice){
+                case "A":
+
+                    break;
+                case "B":
+
+                    break;
+                case "C":
+
+                    break;
+                case "D":
+
+                    break;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+
+        }
 
     }
 
@@ -35,136 +177,5 @@ public class Blackjack extends Game {
     protected void endGame(Player winner) {
 
     }
-//    private Deck deck;
-//    private List<Card> dealerHand;
-//    private Player player;
-//    private Scanner scanner;
-//
-//    public Blackjack(String name, int maxPlayers) {
-//        super(name, maxPlayers);
-//        deck = DeckBuilder.createStandardDeck();
-//        dealerHand = new ArrayList<>();
-//        scanner = new Scanner(System.in);
-//    }
-//
-//    public Blackjack(Player player) {
-//        super();
-//        this.player = player;
-//        deck = DeckBuilder.createStandardDeck();
-//        dealerHand = new ArrayList<>();
-//        scanner = new Scanner(System.in);
-//    }
-//
-//    @Override
-//    protected void initializeGame() {
-//        // Shuffle the deck before starting the game
-//        deck.shuffle();
-//    }
-//
-//    @Override
-//    protected boolean isGameOver() {
-//        // Game over if the player's hand value is over 21 or if they run out of funds
-//        return getHandValue(player.getHand()) > 21 || player.getAccountBalance() <= 0;
-//    }
-//
-//    @Override
-//    protected void playTurn() {
-//        System.out.println("\n" + player.getWholeName() + "'s Turn");
-//        dealCardToPlayer(player);
-//        showHands();
-//        while (!isPlayerDone()) {
-//            askPlayerAction();
-//            showHands();
-//        }
-//    }
-//
-//    private void dealCardToPlayer(Player player) {
-////        Card card = deck.drawCard();
-////        if (card != null) {
-////            player.addToHand(card);
-////        } else {
-////            System.out.println("No more cards in the deck!");
-////        }
-//    }
-//
-//    private void showHands() {
-//        System.out.println("Dealer's Hand: [Hidden], " + dealerHand.get(1));
-//        System.out.println(player.getWholeName() + "'s Hand: " + player.getHand() +
-//                " (Total Value: " + getHandValue(player.getHand()) + ")");
-//    }
-//
-//    private boolean isPlayerDone() {
-//        int handValue = getHandValue(player.getHand());
-//        return handValue >= 21 || !askPlayerDrawAgain();
-//    }
-//
-//    private boolean askPlayerDrawAgain() {
-//        System.out.print("Do you want to draw another card? (yes/no): ");
-//        String input = scanner.nextLine().trim().toLowerCase();
-//        return input.equals("yes");
-//    }
-//
-//    private void askPlayerAction() {
-//        if (getHandValue(player.getHand()) < 21) {
-//            System.out.print("Do you want to draw another card? (yes/no): ");
-//            String input = scanner.nextLine().trim().toLowerCase();
-//            if (input.equals("yes")) {
-//                dealCardToPlayer(player);
-//            } else {
-//                player.recordLoss("Blackjack"); // Player folds, record as a loss
-//            }
-//        }
-//    }
-//
-//    @Override
-//    protected Player determineWinner() {
-//        int playerValue = getHandValue(player.getHand());
-//        int dealerValue = getHandValue(dealerHand);
-//        if (playerValue > 21 || (dealerValue <= 21 && dealerValue > playerValue)) {
-//            System.out.println("Dealer wins!");
-//            player.recordLoss("Blackjack");
-//            return null;
-//        } else if (dealerValue > 21 || playerValue > dealerValue) {
-//            System.out.println(player.getWholeName() + " wins!");
-//            player.recordWin("Blackjack");
-//            return player;
-//        } else {
-//            System.out.println("It's a tie!");
-//            return null;
-//        }
-//    }
-//
-//    @Override
-//    protected void endGame(Player winner) {
-//        System.out.println("\nGame Over");
-//        System.out.println("Dealer's Hand: " + dealerHand +
-//                " (Total Value: " + getHandValue(dealerHand) + ")");
-//        if (winner != null) {
-//            System.out.println(winner.getWholeName() + " wins!");
-//        } else {
-//            System.out.println("No winner this round.");
-//        }
-//        scanner.close();
-//    }
-//
-//    private int getHandValue(List<Card> hand) {
-//        int value = 0;
-//        int numAces = 0;
-//        for (Card card : hand) {
-//            if (card.getNumber() == 1) {
-//                numAces++;
-//                value += 11;
-//            } else if (card.getNumber() >= 10) {
-//                value += 10;
-//            } else {
-//                value += card.getNumber();
-//            }
-//        }
-//        while (value > 21 && numAces > 0) {
-//            value -= 10;
-//            numAces--;
-//        }
-//        return value;
-//    }
 }
 

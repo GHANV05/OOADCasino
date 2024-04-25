@@ -31,6 +31,11 @@ public class DeckTest {
     }
 
     @Test
+    public void testDeckDrawCard(){
+        Deck deck = new Deck(1, false);
+    }
+
+    @Test
     public void testDeckAddCards(){
         List<Card> cards = new ArrayList<>();
         cards.add(new Card(1, Card.Suit.Hearts));
