@@ -12,24 +12,24 @@ import java.util.Scanner;
 public class GameMenu {
     private Scanner scanner;
     private Map<String, Game> games;
-    private Player player = null;
+    private Player player;
 
-    public GameMenu() {
+    public GameMenu(Player player) {
         this.scanner = new Scanner(System.in);
         this.games = new HashMap<>();
-        initializeGames();
+        initializeGames(player);
     }
 
     public void addPlayer(Player player){
         this.player = player;
     }
 
-    private void initializeGames() {
+    private void initializeGames(Player player) {
         // Initialize and add games to the list
         // For each game, you can instantiate it and add it to the games map with a unique key
         games.put("A", new Blackjack("Blackjack", 4));
         games.put("B", new Poker("Poker" , 4));
-        games.put("C", new SlotMachine("Slots" , 1, this.player));
+        games.put("C", new SlotMachine("Slots" , 1, player));
     }
 
     public void displayMenu() {

@@ -5,12 +5,12 @@ import java.util.Scanner;
 
 public class CasinoLobbyMenu {
     private Scanner scanner;
-    private Player player = null;
+    private Player player;
     private GameMenu gameMenu;
 
-    public CasinoLobbyMenu() {
+    public CasinoLobbyMenu(Player player) {
         this.scanner = new Scanner(System.in);
-        this.gameMenu = new GameMenu();
+        this.gameMenu = new GameMenu(player);
     }
 
     public void addPlayer(Player player){

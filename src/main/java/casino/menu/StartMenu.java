@@ -12,7 +12,7 @@ public class StartMenu {
 
     public StartMenu(){
         this.scanner = new Scanner(System.in);
-        this.lobbyMenu = new CasinoLobbyMenu();
+        //this.lobbyMenu = new CasinoLobbyMenu();
     }
 
     public void displayMenu(){
@@ -36,6 +36,7 @@ public class StartMenu {
                 case "A":
                     //
                     Player player = createNewUser();
+                    lobbyMenu = new CasinoLobbyMenu(player);
                     lobbyMenu.addPlayer(player);
                     lobbyMenu.displayMenu();
                     break;
@@ -46,6 +47,7 @@ public class StartMenu {
                     break;
                 case "C":
                     Player guest = continueAsGuest();
+                    lobbyMenu = new CasinoLobbyMenu(guest);
                     lobbyMenu.addPlayer(guest);
                     lobbyMenu.displayMenu();
                     break;
