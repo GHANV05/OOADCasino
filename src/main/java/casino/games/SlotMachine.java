@@ -2,8 +2,20 @@ package casino.games;
 
 import casino.user.Player;
 
+import java.util.Random;
+import java.util.Scanner;
+
 public class SlotMachine extends Game {
-    private static final int BET_AMOUNT = 10;
+    private static final int BET_AMOUNT = 20;
+
+    //Emoji symbols and their Unicode encodings (UTF-8) not working Sadge
+    //private static final String[] SYMBOLS = {"\uD83C\uDF52", "\uD83C\uDF4B", "\uD83C\uDF47", "\uD83C\uDF49", "\uD83C\uDF53"};
+    //private static final String [] SYMBOLS = {" $ " , "",};
+    private static final String[] SYMBOLS = {" ♠ ", " ♥ ", " ♦ ", " ♣ " , " $ " , " # "};
+    private boolean quit = false;
+
+    private final Random random = new Random();
+    private Scanner scanner = new Scanner(System.in);
     public double playerStartMoney = 0.0;
     public SlotMachine(String name, int maxPlayers, Player mainPlayer) {
         super(name, maxPlayers);
@@ -20,25 +32,75 @@ public class SlotMachine extends Game {
 
     @Override
     public boolean isGameOver() {
-        return mainPlayer.getAccountBalance() < BET_AMOUNT;
+        return mainPlayer.getAccountBalance() < BET_AMOUNT || quit;
     }
+
 
     @Override
     public void playTurn() {
-        mainPlayer.withdraw(BET_AMOUNT);
-        System.out.println("Spinning the slot machine...");
+        boolean run = true;
+        while(run) {
+            System.out.println("+======SLOTS======+");
+            System.out.println("(A) Game Rules...");
+            System.out.println("(B) Play a round!");
+            System.out.println("(Q) Head Back to Game Menu...");
+            System.out.println("+===================+");
+            System.out.print("Type Your Option: ");
+            String choice = scanner.nextLine().trim().toUpperCase();
 
-        int result = (int) (Math.random() * 100); //Randomize Outcome of the spin
-        if (result < 50) {
-            System.out.println("Sorry, you lost this round.");
+            switch (choice) {
+                case "A":
+                    System.out.println("Match three symbols in a row, column, or diagonal to win!");
+                    break;
+                case "B":
+                    if (mainPlayer.getAccountBalance() >= BET_AMOUNT) {
+                        mainPlayer.withdraw(BET_AMOUNT);
+                        if (playRound()) {
+                            int winnings = BET_AMOUNT * 10;
+                            mainPlayer.deposit(winnings);
+                            System.out.println("Congratulations! You won $" + winnings);
+                        } else {
+                            System.out.println("Sorry, you lost this round.");
+                        }
+                        System.out.println("Current balance: $" + mainPlayer.getAccountBalance());
+                    } else {
+                        System.out.println("Insufficient balance to play.");
+                        run = false;
+                    }
+                    break;
+                case "Q":
+                    System.out.println("Quitting Slots and returning to the Game Lobby...");
+                    quit = true;  // Set the quit flag to true
+                    run = false;   // Stop the loop
+                    return;        // Exit the method
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
         }
-        else{
-            int winings = BET_AMOUNT * 2;
-            mainPlayer.deposit(winings);
-            System.out.println("Congratulations! You won $" + winings);
-        }
+    }
 
-        System.out.println("Current balance$" + mainPlayer.getAccountBalance());
+
+    private boolean playRound() {
+        String[][] grid = new String[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                grid[i][j] = SYMBOLS[random.nextInt(SYMBOLS.length)];
+                System.out.print(grid[i][j] + " ");
+            }
+            System.out.println(); // Move to next line after each row
+        }
+        return checkWin(grid);
+    }
+
+    private boolean checkWin(String[][] grid) {
+        // Check rows, columns and diagonals
+        for (int i = 0; i < 3; i++) {
+            if (grid[i][0].equals(grid[i][1]) && grid[i][1].equals(grid[i][2])) return true; // Rows
+            if (grid[0][i].equals(grid[1][i]) && grid[1][i].equals(grid[2][i])) return true; // Columns
+        }
+        if (grid[0][0].equals(grid[1][1]) && grid[1][1].equals(grid[2][2])) return true; // Major diagonal
+        if (grid[0][2].equals(grid[1][1]) && grid[1][1].equals(grid[2][0])) return true; // Minor diagonal
+        return false;
     }
 
     //Will determine winner (financial earnings/losses amount)
