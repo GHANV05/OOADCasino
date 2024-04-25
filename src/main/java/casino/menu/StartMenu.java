@@ -56,11 +56,6 @@ public class StartMenu {
                 default:
                     System.out.println("Invalid option. Please try again.");
             }
-//            if (run) {
-//                System.out.println("\nPress Enter to return to the menu...");
-//                scanner.nextLine(); // Wait for user to press Enter to continue
-//                clearScreen(); // Optionally clear the screen before showing the menu again
-//            }
         }
     }
 
@@ -89,20 +84,6 @@ public class StartMenu {
         // This Guest User can be used for ease of testing
     }
 
-//    //Neat little addition
-//    private void clearScreen() {
-//        try {
-//            final String os = System.getProperty("os.name");
-//
-//            if (os.contains("Windows")) {
-//                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-//            } else {
-//                System.out.print("\033\143"); // ANSI escape code for clear screen in Unix/Linux
-//            }
-//        } catch (Exception e) {
-//            System.out.println("Error clearing screen: " + e.getMessage());
-//        }
-//    }
 
     public static void main(String[] args) {
         StartMenu menu = new StartMenu();

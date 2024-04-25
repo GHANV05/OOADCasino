@@ -13,7 +13,7 @@ import java.util.List;
 
 public abstract class Game {
 
-    protected Player mainPlayer;
+    public Player mainPlayer;
     protected String name;
     protected List<Player> players;
     protected int maxPlayers;
