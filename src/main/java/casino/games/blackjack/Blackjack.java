@@ -30,6 +30,7 @@ public class Blackjack extends Game {
 
     @Override
     protected void initializeGame() {
+        this.scanner = new Scanner(System.in);
         System.out.println("+============================+");
         System.out.println("Blackjack Game Initializing...");
         System.out.println("+============================+");
@@ -40,27 +41,43 @@ public class Blackjack extends Game {
         System.out.println("+============================+");
         System.out.println("Beginning the game...");
         System.out.println("+============================+");
-
-        int firstWager = 0;
-        boolean validInput1 = false;
-        while (!validInput1) {
-            System.out.println("How much would you like to wager? (minimum: $5)");
-            String input1 = scanner.nextLine();
-            try {
-                firstWager = Integer.parseInt(input1);
-                if (firstWager >= 5) {
-                    validInput1 = true;
-                } else {
-                    System.out.println("Minimum wager is $5. Please enter a valid amount.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid integer value.");
-            }
+        boolean makeWager = true;
+        while(makeWager){
+            makeWager = makeWager();
         }
-//
-//        wager = firstWager;
-//        moneyGained -= firstWager;
 
+
+
+    }
+
+    private boolean makeWager(){
+        System.out.println("How much would you like to wager?");
+        System.out.println("-------------------------");
+        System.out.println("(A) $5");
+        System.out.println("(B) $20");
+        System.out.println("(C) $50");
+        System.out.println("(D) $100");
+        System.out.println("-------------------------");
+        System.out.print("Type Your Option:");
+        String choice = scanner.nextLine().trim().toUpperCase();
+
+        switch (choice){
+            case "A":
+                wager = 5;
+                return false;
+            case "B":
+                wager = 20;
+                return false;
+            case "C":
+                wager = 50;
+                return false;
+            case "D":
+                wager = 100;
+                return false;
+            default:
+                System.out.println("Invalid option. Please try again.");
+        }
+       return true;
     }
 //
 //    private boolean gamePlayerHas21(){
@@ -175,26 +192,29 @@ public class Blackjack extends Game {
 
     @Override
     protected void playTurn() {
-//
-//        if(turnCount == 0){
-//            System.out.println("Turn # " + turnCount);
 
-//            dealersHand.addCard(deck.drawCard());
-//            System.out.println("The dealer has drawn a card...");
-//
-//            playersHand.addCard(deck.drawCard());
-//            System.out.println("You have drawn a card: " + playersHand.returnCards().get(0).getCardName());
-//
-//            dealersHand.addCard(deck.drawCard());
-//            System.out.println("The dealer has drawn a card: " + dealersHand.returnCards().get(1).getCardName());
-//
-//            playersHand.addCard(deck.drawCard());
-//            System.out.println("You have drawn a card: " +  playersHand.returnCards().get(1).getCardName());
-//
-//            boolean gameStatus = isGameOver();
+        System.out.println("Turn # " + turnCount);
 
-//            turnCount++
-//            }
+        if(turnCount == 0){
+
+            dealersHand.addCard(deck.drawCard());
+            System.out.println("The dealer has drawn a card...");
+
+            playersHand.addCard(deck.drawCard());
+            System.out.println("You have drawn a card: " + playersHand.returnCards().get(0).getCardName());
+
+            dealersHand.addCard(deck.drawCard());
+            System.out.println("The dealer has drawn a card: " + dealersHand.returnCards().get(1).getCardName());
+
+            playersHand.addCard(deck.drawCard());
+            System.out.println("You have drawn a card: " +  playersHand.returnCards().get(1).getCardName());
+
+            boolean gameStatus = isGameOver();
+
+        }
+
+        turnCount++;
+
 //
 //        if(turnCount == 1){
 //
@@ -238,6 +258,7 @@ public class Blackjack extends Game {
 //            }
 //
 //        }
+
 
     }
 
