@@ -1,5 +1,6 @@
 package casino.games;
 
+import casino.fileDBMS.Leaderboard;
 import casino.user.Player;
 
 import java.util.ArrayList;
@@ -17,6 +18,10 @@ public abstract class Game {
     protected String name;
     protected List<Player> players;
     protected int maxPlayers;
+
+    public Leaderboard leaderboard;
+
+    //Include a leader specific to each Game subclass
 
     public Game(String name, int maxPlayers) {
         this.name = name;
@@ -43,9 +48,11 @@ public abstract class Game {
     protected abstract void playTurn();
     protected abstract Player determineWinner();
     protected abstract void endGame(Player winner);
-
     public String getName() {return name; }
 
     // Other common methods like addPlayer, removePlayer, displayLeaderboard, etc.
+    public void displayLeaderboard () {
+        this.leaderboard.displayLeaderboard();
+    }
 }
 

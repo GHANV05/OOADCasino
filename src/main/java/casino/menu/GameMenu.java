@@ -33,6 +33,7 @@ public class GameMenu {
     }
 
     public void displayMenu() {
+
         System.out.println("+============================+");
         System.out.println("Welcome \"" + this.player.getUserName() + "\" to the Game Menu!");
         System.out.println("+============================+");

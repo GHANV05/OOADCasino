@@ -1,0 +1,5 @@
+Username,TotalWins,TotalLosses,Winrate
+testuser,5,0,1.0
+user2,5,0,1.0
+user1,10,5,0.6666666666666666
+user3,0,5,0.0

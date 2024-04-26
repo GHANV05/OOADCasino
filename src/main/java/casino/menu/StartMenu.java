@@ -6,6 +6,9 @@ import casino.user.PlayerFactory;
 
 import java.util.Scanner;
 
+//**TO-DO**
+// - Utilize playerDB as an existing record to manage new and existing user login
+
 public class StartMenu {
     private Scanner scanner;
     private CasinoLobbyMenu lobbyMenu;

@@ -5,18 +5,22 @@ import casino.user.Player;
 import java.util.Random;
 import java.util.Scanner;
 
-public class SlotMachine extends Game {
-    private static final int BET_AMOUNT = 20;
+//Edits (really easy to win atm)
+// --> larger slots matrix,
+// --> more symbols (unique combinations of certain symbols lead to different multipliers to earnings)
+// --> Delay between each print of symbol to (simulating each slot symbol "falling" into place"
 
+public class SlotMachine extends Game {
+    /***********************************************************************************************************************/
+    private static final int BET_AMOUNT = 20;
     //Emoji symbols and their Unicode encodings (UTF-8) not working Sadge
     //private static final String[] SYMBOLS = {"\uD83C\uDF52", "\uD83C\uDF4B", "\uD83C\uDF47", "\uD83C\uDF49", "\uD83C\uDF53"};
-    //private static final String [] SYMBOLS = {" $ " , "",};
     private static final String[] SYMBOLS = {" ♠ ", " ♥ ", " ♦ ", " ♣ " , " $ " , " # "};
     private boolean quit = false;
-
     private final Random random = new Random();
     private Scanner scanner = new Scanner(System.in);
     public double playerStartMoney = 0.0;
+    /***********************************************************************************************************************/
     public SlotMachine(String name, int maxPlayers, Player mainPlayer) {
         super(name, maxPlayers);
         this.mainPlayer = mainPlayer;
@@ -24,6 +28,7 @@ public class SlotMachine extends Game {
     }
     @Override
     public void initializeGame() {
+        quit = false;
         System.out.println("Welcome to " + getName() + "!");
         System.out.println("Each spin costs $" + BET_AMOUNT + ".");
         System.out.println("You're starting with a balance of $" + mainPlayer.getAccountBalance());
@@ -39,6 +44,7 @@ public class SlotMachine extends Game {
     @Override
     public void playTurn() {
         boolean run = true;
+        quit = false;
         while(run) {
             System.out.println("+======SLOTS======+");
             System.out.println("(A) Game Rules...");
@@ -50,6 +56,7 @@ public class SlotMachine extends Game {
 
             switch (choice) {
                 case "A":
+                    //Explain Unique symbol combinations...
                     System.out.println("Match three symbols in a row, column, or diagonal to win!");
                     break;
                 case "B":
@@ -69,6 +76,7 @@ public class SlotMachine extends Game {
                     }
                     break;
                 case "Q":
+                    //FIX: Q currently returns back to Casino Lobby Menu instead of Game Menus!!
                     System.out.println("Quitting Slots and returning to the Game Lobby...");
                     quit = true;  // Set the quit flag to true
                     run = false;   // Stop the loop
