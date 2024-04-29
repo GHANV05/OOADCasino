@@ -1,74 +1,55 @@
-import casino.fileDBMS.Leaderboard;
-import org.apache.commons.csv.CSVRecord;
-import org.junit.jupiter.api.*;
-import java.io.IOException;
-import java.nio.file.*;
-import java.util.List;
-
+import casino.games.Leaderboard;
+import casino.user.Player;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
-class LeaderboardTest {
-    private static final Path TEST_CSV_PATH = Paths.get("test_leaderboard.csv");
+public class LeaderboardTest {
     private Leaderboard leaderboard;
+    private Player mockPlayer;
 
     @BeforeEach
-    void setUp() throws IOException {
-        // Set up a fresh state before each test
-        Files.deleteIfExists(TEST_CSV_PATH); // Ensure any previous test file is deleted
-        leaderboard = new Leaderboard(TEST_CSV_PATH.toString());
-        leaderboard.initializeLeaderboard(); // Create a new file for the leaderboard
-    }
-
-    @AfterEach
-    void tearDown() throws IOException {
-        Files.deleteIfExists(TEST_CSV_PATH);
+    public void setUp() {
+        leaderboard = new Leaderboard();
+        mockPlayer = new Player("test", "test", "test1" , "1234");
+        leaderboard.addPlayer(mockPlayer.getUserName());
     }
 
     @Test
-    void testInitializeLeaderboard() {
-        assertTrue(Files.exists(TEST_CSV_PATH));
+    public void testAddPlayer() {
+        assertNotNull(leaderboard.findPlayer(mockPlayer.getUserName()));
+    }
+
+    @Test public void testRecordWin(){
+        leaderboard.recordWin(mockPlayer.getUserName());
+        assertEquals( 1, leaderboard.findPlayer(mockPlayer.getUserName()).getTotalWins());
+    }
+
+    @Test public void testRecordLoss(){
+        leaderboard.recordLoss(mockPlayer.getUserName());
+        assertEquals( 1, leaderboard.findPlayer(mockPlayer.getUserName()).getTotalLosses());
+    }
+
+    @Test public void testWinRateCalculation() {
+        leaderboard.recordWin(mockPlayer.getUserName());
+        leaderboard.recordLoss(mockPlayer.getUserName());
+        double expectedWinRate = 50.0;
+        assertEquals(expectedWinRate, leaderboard.findPlayer(mockPlayer.getUserName()).getWinRate(), 0.001);
     }
 
     @Test
-    void testLoadLeaderboard() {
-        List<CSVRecord> records = leaderboard.loadLeaderboard();
-        assertNotNull(records);
+    public void testLeaderboardSorting() {
+        leaderboard.addPlayer("test1");
+        leaderboard.addPlayer("test2");
+
+        leaderboard.recordWin("test1");
+        leaderboard.recordLoss("test1"); // 50% win rate
+
+        leaderboard.recordWin("test2"); // 100% win rate, no losses
+
+        leaderboard.displayLeaderboard();
+
+        // Assert that "test2", with a higher win rate, comes first
+        assertEquals("test2", leaderboard.getPlayerAtIndex(0).username);
+        assertEquals("test1", leaderboard.getPlayerAtIndex(1).username);
     }
-
-    @Test
-    void testAddOrUpdatePlayer() {
-        String username = "testuser";
-        leaderboard.addOrUpdatePlayer(username, 1, 0);
-        List<CSVRecord> records = leaderboard.loadLeaderboard();
-
-        boolean found = false;
-        for (CSVRecord record : records) {
-            if (record.get("Username").equals(username)) {
-                found = true;
-                assertEquals("1", record.get("TotalWins"));
-                assertEquals("0", record.get("TotalLosses"));
-                assertEquals("1.0", record.get("Winrate"));  // Depending on how winrate is formatted
-                break;
-            }
-        }
-        assertTrue(found, "New player should have been added to the leaderboard");
-    }
-
-    @Test
-    void testSortLeaderboardByWinrate() {
-        // Add multiple players with different winrates
-        leaderboard.addOrUpdatePlayer("user1", 2, 1); // 66.7%
-        leaderboard.addOrUpdatePlayer("user2", 1, 0); // 100%
-        leaderboard.addOrUpdatePlayer("user3", 0, 1); // 0%
-
-        // Sort the leaderboard
-        leaderboard.sortLeaderboardByWinrate();
-        List<CSVRecord> records = leaderboard.loadLeaderboard();
-
-        assertEquals("user2", records.get(0).get("Username"));
-        assertEquals("user1", records.get(1).get("Username"));
-        assertEquals("user3", records.get(2).get("Username"));
-    }
-
-    // ... Other tests for update and remove functionalities
 }

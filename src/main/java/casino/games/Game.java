@@ -1,6 +1,6 @@
 package casino.games;
 
-import casino.fileDBMS.Leaderboard;
+import casino.fileDBMS.CSVFileManager;
 import casino.user.Player;
 
 import java.util.ArrayList;
@@ -20,6 +20,9 @@ public abstract class Game {
     protected int maxPlayers;
 
     public Leaderboard leaderboard;
+//    CSVFileManager slotsLeaderboardFM = new CSVFileManager("/SlotsLeaderboard.csv");
+//    CSVFileManager blackjackLeaderboardFM = new CSVFileManager("/BlackJackLeaderboard.csv");
+//    CSVFileManager pokerLeaderboardFM = new CSVFileManager("/PokerLeaderboard.csv");
 
     //Include a leader specific to each Game subclass
 

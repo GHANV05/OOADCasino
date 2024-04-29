@@ -25,6 +25,8 @@ public class SlotMachine extends Game {
         super(name, maxPlayers);
         this.mainPlayer = mainPlayer;
         this.playerStartMoney = mainPlayer.getAccountBalance();
+        this.leaderboard = new Leaderboard();
+        this.leaderboard.addPlayer(mainPlayer.getUserName());
     }
     @Override
     public void initializeGame() {
@@ -49,6 +51,7 @@ public class SlotMachine extends Game {
             System.out.println("+======SLOTS======+");
             System.out.println("(A) Game Rules...");
             System.out.println("(B) Play a round!");
+            System.out.println("(C) View Leaderboard!");
             System.out.println("(Q) Head Back to Game Menu...");
             System.out.println("+===================+");
             System.out.print("Type Your Option: ");
@@ -66,8 +69,12 @@ public class SlotMachine extends Game {
                             int winnings = BET_AMOUNT * 10;
                             mainPlayer.deposit(winnings);
                             System.out.println("Congratulations! You won $" + winnings);
+                            leaderboard.recordWin(mainPlayer.getUserName());
+                            mainPlayer.recordWin(this.getName());
                         } else {
                             System.out.println("Sorry, you lost this round.");
+                            leaderboard.recordLoss(mainPlayer.getUserName());
+                            mainPlayer.recordLoss(this.getName());
                         }
                         System.out.println("Current balance: $" + mainPlayer.getAccountBalance());
                     } else {
@@ -75,8 +82,10 @@ public class SlotMachine extends Game {
                         run = false;
                     }
                     break;
+                case "C":
+                    leaderboard.displayLeaderboard();
+                    break;
                 case "Q":
-                    //FIX: Q currently returns back to Casino Lobby Menu instead of Game Menus!!
                     System.out.println("Quitting Slots and returning to the Game Lobby...");
                     quit = true;  // Set the quit flag to true
                     run = false;   // Stop the loop
@@ -86,7 +95,6 @@ public class SlotMachine extends Game {
             }
         }
     }
-
 
     private boolean playRound() {
         String[][] grid = new String[3][3];
@@ -131,7 +139,7 @@ public class SlotMachine extends Game {
             winner.recordWin(getName());
         } else {
             System.out.println("Game Over! You leave with $" + mainPlayer.getAccountBalance() + ", better luck next time!");
-            mainPlayer.recordLoss(getName());
+            mainPlayer.recordLoss(this.getName());
         }
     }
 }

@@ -87,6 +87,19 @@ public class Player {
         return (double) getTotalWins() / (double) getTotalLosses();
     }
 
+    public void setTotalWins(int totalWins) {
+        this.totalWins = totalWins;
+    }
+
+    public void setTotalLosses(int totalLosses) {
+        this.totalLosses = totalLosses;
+    }
+
+    public void setAccountBalance(double accountBalance) {
+        this.accountBalance = accountBalance;
+    }
+
+
     // Retrieve specific game stats
     public Integer[] getGameStats(String gameName) {
         return gameStats.getOrDefault(gameName, new Integer[]{0, 0});
