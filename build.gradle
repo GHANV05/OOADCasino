@@ -19,6 +19,9 @@ dependencies {
    implementation 'ch.qos.logback:logback-classic:1.4.14'
    implementation 'commons-cli:commons-cli:1.6.0'
    implementation 'org.apache.commons:commons-csv:1.8'
+   testImplementation 'io.cucumber:cucumber-java:6.10.4'
+   testImplementation 'io.cucumber:cucumber-groovy:6.10.4'
+   testImplementation 'org.apache.groovy:groovy:4.0.3'
 }
 
 test {

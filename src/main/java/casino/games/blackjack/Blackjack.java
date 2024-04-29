@@ -2,8 +2,6 @@ package casino.games.blackjack;
 
 import casino.games.Game;
 import casino.user.Player;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Blackjack extends Game {
@@ -31,13 +29,15 @@ public class Blackjack extends Game {
     /******************************************************************/
 
 
-    public Blackjack(String name, int maxPlayers) {
+    public Blackjack(String name, int maxPlayers, Player player) {
         super(name, maxPlayers);
+        this.name = "Blackjack";
+        this.mainPlayer = player;
     }
 
 
     @Override
-    protected void initializeGame() {
+    public void initializeGame() {
         turnCount = 0;
         gameIsOver = false;
         this.scanner = new Scanner(System.in);
@@ -58,6 +58,8 @@ public class Blackjack extends Game {
         }
 
     }
+
+
 
     private boolean makeWager(){
         System.out.println("How much would you like to wager?");
@@ -87,7 +89,7 @@ public class Blackjack extends Game {
                 System.out.println("Invalid option. Please try again.");
         }
 
-        moneyGained -= wager;
+        mainPlayer.withdraw(wager);
         return true;
     }
 
@@ -121,11 +123,13 @@ public class Blackjack extends Game {
                 if(dealersHand.calculateHandValue() < 21){
                     System.out.println("Your hand defeated the dealer's hand. You won!");
                     System.out.println("Your wager has been tripled and returned to you.");
+                    mainPlayer.recordWin(name);
                     moneyGained += wager*3;
                 } else {
                     System.out.println("The dealer also had a Blackjack! It's a push!");
                     System.out.println("Your wager has been returned to you.");
-                    moneyGained += wager*2;
+                    mainPlayer.recordWin(name);
+                    moneyGained += wager;
                 }
                 gameIsOver = true;
             }
@@ -184,11 +188,12 @@ public class Blackjack extends Game {
                     if(dealersHand.calculateHandValue() > 21 || dealersHand.calculateHandValue() < playersHand.calculateHandValue()){
                         System.out.println("-------------------------");
                         System.out.println("You won! You wager has been doubled and returned to you.");
+                        mainPlayer.recordWin(name);
                         moneyGained += wager*2;
                     } else {
                         System.out.println("-------------------------");
                         System.out.println("You lost! You wager will not be returned to you.");
-                        moneyGained += wager;
+                        mainPlayer.recordLoss(name);
                     }
                     gameIsOver = true;
                 }
@@ -211,11 +216,12 @@ public class Blackjack extends Game {
         if(dealersHand.calculateHandValue() > 21 || dealersHand.calculateHandValue() < playersHand.calculateHandValue()){
             System.out.println("-------------------------");
             System.out.println("You won! You wager has been doubled and returned to you.");
+            mainPlayer.recordWin(name);
             moneyGained += wager*2;
         } else {
             System.out.println("-------------------------");
             System.out.println("You lost! You wager will not be returned to you.");
-            moneyGained += wager;
+            mainPlayer.recordWin(name);
         }
         return false;
     }
@@ -228,6 +234,7 @@ public class Blackjack extends Game {
         if(playersHand.calculateHandValue() > 21){
             System.out.println("You have been busted!");
             System.out.println("Your wager will not be returned to you.");
+            mainPlayer.recordLoss(name);
             return false;
         }
         return true;
@@ -237,6 +244,7 @@ public class Blackjack extends Game {
         System.out.println("-------------------------");
         System.out.println("You have chosen to surrender.");
         System.out.println("Half your wager is returned to you.");
+        mainPlayer.recordLoss(name);
         moneyGained += wager/2;
         return false;
     }
@@ -255,6 +263,7 @@ public class Blackjack extends Game {
             if(dealersHand.calculateHandValue() > 21){
                 System.out.println("-------------------------");
                 System.out.println("The dealer has busted!");
+                mainPlayer.recordWin(name);
                 return false;
             }
             return true;
@@ -267,7 +276,13 @@ public class Blackjack extends Game {
 
     @Override
     protected Player determineWinner() {
-        return null;
+        if (moneyGained > 0){
+            mainPlayer.deposit(moneyGained);
+        }
+        if(moneyGained < 0){
+            mainPlayer.withdraw(moneyGained);
+        }
+        return mainPlayer;
     }
 
     @Override

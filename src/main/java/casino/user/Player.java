@@ -125,16 +125,4 @@ public class Player {
             System.out.print("Current Balance: " + accountBalance);
         }
     }
-
-    public List<Card> getHand() {
-        return hand;
-    }
-
-    public void addToHand(Card card) {
-        hand.add(card);
-    }
-
-    public void clearHand() {
-        hand.clear();
-    }
 }
