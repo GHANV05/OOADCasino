@@ -1,10 +1,8 @@
-import casino.games.SlotMachine;
 import casino.games.blackjack.Blackjack;
 import casino.user.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class BlackjackTest {
@@ -14,7 +12,7 @@ public class BlackjackTest {
     @BeforeEach
     void setUp() {
         player = new Player("John","Doe", "johndoe123", "12345");
-        blackjack = new Blackjack("Blackjack", 1, player);
+        blackjack = new Blackjack("testblackjack", 1, player);
     }
 
     @Test
@@ -24,7 +22,21 @@ public class BlackjackTest {
 
     @Test
     void testInitializeGame() {
+        blackjack.initializeGame();
+        assertNotNull(blackjack);
+    }
 
+    @Test
+    void testDetermineWinner() {
+        blackjack.initializeGame();
+        assert(blackjack.determineWinner() == player);
+    }
+
+    @Test
+    void testIsGameOver() {
+        blackjack.initializeGame();
+        assert(!blackjack.isGameOver());
+        blackjack.playTurn();
     }
 
 }

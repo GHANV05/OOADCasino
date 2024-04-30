@@ -13,7 +13,7 @@ Feature: Casino StartMenu
 Feature: Blackjack
 
   Scenario: Playing a Game of Blackjack
-    Given the user’s account balance is $1000
+    Given the user’s account balance is 1000
     When the user wins or loses a game of Blackjack
     Then the user’s account balance should change depending on game result
     Then the user’s win/loss ratio should increase/decrease depending on game result

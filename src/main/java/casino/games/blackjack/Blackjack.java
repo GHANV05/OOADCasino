@@ -2,6 +2,8 @@ package casino.games.blackjack;
 
 import casino.games.Game;
 import casino.user.Player;
+
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Blackjack extends Game {
@@ -26,12 +28,17 @@ public class Blackjack extends Game {
 
     boolean gameIsOver = false;
 
+    boolean testBlackjack = false;
+
     /******************************************************************/
 
 
     public Blackjack(String name, int maxPlayers, Player player) {
         super(name, maxPlayers);
         this.name = "Blackjack";
+        if(Objects.equals(name, "testblackjack")){
+            testBlackjack = true;
+        }
         this.mainPlayer = player;
     }
 
@@ -52,14 +59,12 @@ public class Blackjack extends Game {
         System.out.println("+============================+");
         System.out.println("Beginning the game...");
         System.out.println("+============================+");
-        boolean makeWager = true;
+        boolean makeWager = !testBlackjack;
         while(makeWager){
             makeWager = makeWager();
         }
 
     }
-
-
 
     private boolean makeWager(){
         System.out.println("How much would you like to wager?");
@@ -94,12 +99,12 @@ public class Blackjack extends Game {
     }
 
     @Override
-    protected boolean isGameOver() {
+    public boolean isGameOver() {
         return gameIsOver;
     }
 
     @Override
-    protected void playTurn() {
+    public void playTurn() {
 
         System.out.println("Turn # " + turnCount);
 
@@ -159,7 +164,15 @@ public class Blackjack extends Game {
             System.out.println("(C) Surrender (give up your hand)");
             System.out.println("-------------------------");
             System.out.print("Type Your Option:");
-            String choice = scanner.nextLine().trim().toUpperCase();
+
+            String choice;
+
+            if(testBlackjack){
+                choice = "C";
+            }
+            else {
+                choice = scanner.nextLine().trim().toUpperCase();
+            }
 
             boolean playerStillPlaying = true;
 
@@ -275,19 +288,21 @@ public class Blackjack extends Game {
 
 
     @Override
-    protected Player determineWinner() {
+    public Player determineWinner() {
         if (moneyGained > 0){
             mainPlayer.deposit(moneyGained);
         }
         if(moneyGained < 0){
             mainPlayer.withdraw(moneyGained);
         }
+        gameIsOver = true;
         return mainPlayer;
+
     }
 
     @Override
-    protected void endGame(Player winner) {
-
+    public void endGame(Player winner) {
+        gameIsOver = true;
     }
 }
 
