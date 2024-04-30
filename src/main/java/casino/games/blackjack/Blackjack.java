@@ -55,7 +55,7 @@ public class Blackjack extends Game {
         playersHand = new Hand();
         DeckBuilder deckBuilder = new DeckBuilder()
                 .addStandardDeck(2) // Add two standard decks
-                .addJokers(4); // Add four jokers
+                .addJokers(0); // Add four jokers
         this.deck = deckBuilder.build();
         deck.shuffleCards();
 
