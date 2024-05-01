@@ -65,8 +65,6 @@ public class UserAccountMenu {
         System.out.println("|       User Account Details      |");
         System.out.println("+=================================+");
         System.out.println("| Username: " + player.getUserName());
-        System.out.println("| Full Name: " + player.getWholeName());
-        System.out.println("| Phone Number: " + player.getPhoneNumber());
         System.out.println("| Total Wins: " + player.getTotalWins());
         System.out.println("| Total Losses: " + player.getTotalLosses());
         System.out.println("| Win Rate: " + (player.getTotalWins() > 0 ? String.format("%.2f%%", 100.0 * player.getTotalWins() / (player.getTotalWins() + player.getTotalLosses())) : "N/A"));
