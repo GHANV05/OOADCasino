@@ -57,4 +57,26 @@ public class PlayerDatabase {
         return players.values();
     }
 
+    public void updatePlayer(Player updatedPlayer) {
+        String username = updatedPlayer.getUserName();
+        if (players.containsKey(username)) {
+            players.put(username, updatedPlayer);  // Replace the old player data with the updated data
+            savePlayers();  // Write changes back to the CSV
+            System.out.println("Player data updated successfully.");
+        } else {
+            System.out.println("Player not found, cannot update.");
+        }
+    }
+
+
+    public void deletePlayer(String username) {
+        if (players.containsKey(username)) {
+            players.remove(username);  // Remove the player from the map
+            savePlayers();  // Update the CSV file
+            System.out.println("Player removed successfully.");
+        } else {
+            System.out.println("Player not found, cannot delete.");
+        }
+    }
+
 }

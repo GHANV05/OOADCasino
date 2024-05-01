@@ -44,7 +44,7 @@ public class StartMenu {
                     if (player != null) {
                         lobbyMenu = new CasinoLobbyMenu(player);
                         lobbyMenu.addPlayer(player);
-                        lobbyMenu.displayMenu();
+                        lobbyMenu.displayMenu(playerDB);
                     }
                     break;
                 case "B":
@@ -54,14 +54,14 @@ public class StartMenu {
                     if (existingPlayer != null) {
                         lobbyMenu = new CasinoLobbyMenu(existingPlayer);
                         lobbyMenu.addPlayer(existingPlayer);
-                        lobbyMenu.displayMenu();
+                        lobbyMenu.displayMenu(playerDB);
                     }
                     break;
                 case "C":
                     Player guest = continueAsGuest();
                     lobbyMenu = new CasinoLobbyMenu(guest);
                     lobbyMenu.addPlayer(guest);
-                    lobbyMenu.displayMenu();
+                    lobbyMenu.displayMenu(playerDB);
                     break;
                 case "Q":
                     playerDB.savePlayers(); // Save players before exiting

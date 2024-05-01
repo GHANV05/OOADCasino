@@ -125,4 +125,12 @@ public class Player {
             System.out.print("Current Balance: " + accountBalance);
         }
     }
+
+    public void setFirstName(String newValue) {
+        this.firstName = newValue;
+    }
+
+    public void setLastName(String newValue) {
+        this.lastName = newValue;
+    }
 }

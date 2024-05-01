@@ -1,6 +1,8 @@
 package casino.menu;
 
 import casino.user.Player;
+import casino.user.PlayerDatabase;
+
 import java.util.Scanner;
 
 
@@ -9,6 +11,7 @@ public class CasinoLobbyMenu {
     private Scanner scanner;
     private Player player;
     private GameMenu gameMenu;
+    PlayerDatabase playerDB;
 
     public CasinoLobbyMenu(Player player) {
         this.scanner = new Scanner(System.in);
@@ -19,7 +22,8 @@ public class CasinoLobbyMenu {
         this.player = player;
     }
 
-    public void displayMenu() {
+    public void displayMenu(PlayerDatabase playerDB) {
+
         boolean run = true;
         while(run){
             System.out.println("+============================+");
@@ -43,7 +47,7 @@ public class CasinoLobbyMenu {
                 case "B":
                     // Placeholder for the User Account Menu
                     UserAccountMenu accountMenu = new UserAccountMenu(player);
-                    accountMenu.displayMenu();
+                    accountMenu.displayMenu(playerDB);
                     break;
                 case "Q":
                     System.out.println("Returning to the Start Menu...");
