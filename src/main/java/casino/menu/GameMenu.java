@@ -28,7 +28,7 @@ public class GameMenu {
         // Initialize and add games to the list
         // For each game, you can instantiate it and add it to the games map with a unique key
         games.put("A", new Blackjack("Blackjack", 4, player));
-        games.put("B", new Poker("Poker" , 4));
+        games.put("B", new Poker("Poker" , 4, player));
         games.put("C", new SlotMachine("Slots" , 1, player));
     }
 
