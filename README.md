@@ -1,6 +1,8 @@
 # Final Project : Casino
 -----
 
+## NOTE: This repository was migrated from my former academic GitHub account @gaha4495
+
 **Team Members:**
 
 1. Sarah Bian (github: sabi3820)
